@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:id="@+id/MainActivityID">
+
+    <org.opencv.android.JavaCameraView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible"
+        android:id="@+id/myCameraId"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="122dp"
+        android:layout_gravity="bottom"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:backgroundTint="@color/white"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/btnCanny"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/ic_baseline_visibility_24" />
+
+        <ImageView
+            android:id="@+id/take_picture"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_weight="1"
+            android:layout_marginTop="15dp"
+            android:src="@drawable/ic_baseline_camera_24" />
+
+        <ImageView
+            android:id="@+id/go_to_gallery"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/ic_baseline_image_24" />
+
+
+    </LinearLayout>
+
+</FrameLayout>
