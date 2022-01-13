@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class GalleryActivity extends AppCompatActivity {
     ViewPager mViewPager;
     ArrayList<String> filePath = new ArrayList<>();
-    ViewPageAdapater viewPageAdapater;
+    ViewPageAdapter viewPageAdapter;
     ImageView goBack;
     ImageView goDelete;
 
@@ -28,9 +28,9 @@ public class GalleryActivity extends AppCompatActivity {
 
         File folder = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/ImagePro");
         createFileArray(folder);
-        mViewPager=(ViewPager) findViewById(R.id.viewPagerMain);
-        viewPageAdapater=new ViewPageAdapater(GalleryActivity.this, filePath);
-        mViewPager.setAdapter(viewPageAdapater);
+        mViewPager = (ViewPager) findViewById(R.id.viewPagerMain);
+        viewPageAdapter = new ViewPageAdapter(GalleryActivity.this, filePath);
+        mViewPager.setAdapter(viewPageAdapter);
 
         goBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,24 +39,22 @@ public class GalleryActivity extends AppCompatActivity {
             }
         });
 
-        goDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                viewPageAdapater.removeView(1);
-                notify();
-            }
-        });
-
+        //goDelete.setOnClickListener(new View.OnClickListener() {
+        //    @Override
+        //    public void onClick(View v) {
+        //        viewPageAdapter.removeView(1);
+        //        notify();
+        //    }
+        //});
 
     }
-
 
     private void createFileArray(File folder) {
         File listFile[] = folder.listFiles();
 
         if(listFile != null)
         {
-            for(int i = 0; i<listFile.length; i++)
+            for(int i=0;i<listFile.length;i++)
             {
                 filePath.add(listFile[i].getAbsolutePath());
             }

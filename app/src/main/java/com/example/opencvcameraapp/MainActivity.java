@@ -35,7 +35,6 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
 
     private static final String TAG = "MainActivity";
     private JavaCameraView cameraBridgeViewBase;
-    Mat CannyImg;
     private ImageView btnCanny;
     private ImageView take_picture;
     private ImageView gallery;
@@ -204,7 +203,8 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
 
         if(runCanny)
         {
-            Imgproc.Canny(mRGBAT, CannyImg, 100,80);
+            Mat CannyImg = new Mat();
+            Imgproc.Canny(mRGBAT, CannyImg, 80,200);
             return CannyImg;
         }
 

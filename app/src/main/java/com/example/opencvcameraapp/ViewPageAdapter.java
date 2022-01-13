@@ -14,13 +14,12 @@ import androidx.viewpager.widget.PagerAdapter;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class ViewPageAdapater extends PagerAdapter {
+public class ViewPageAdapter extends PagerAdapter {
     Context context;
-    ArrayList<String> images = new ArrayList<>();
-
+    ArrayList<String> images;
     LayoutInflater mLayoutInflater;
 
-    public ViewPageAdapater(Context context, ArrayList images) {
+    public ViewPageAdapter(Context context, ArrayList images) {
         this.context = context;
         this.images = images;
 
@@ -43,10 +42,10 @@ public class ViewPageAdapater extends PagerAdapter {
     }
 
 
-    public void removeView(int index)
-    {
-        images.remove(1);
-    }
+    //public void removeView(int index)
+    //{
+       // images.remove(1);
+    //}
 
     @NonNull
     @Override
@@ -54,7 +53,7 @@ public class ViewPageAdapater extends PagerAdapter {
         View itemView = mLayoutInflater.inflate(R.layout.item, container, false);
         ImageView image_page = (ImageView) itemView.findViewById(R.id.image_page);
 
-        Uri imgUri = Uri.parse("file://" + images.get(position));
+        Uri imgUri = Uri.parse("file://"+images.get(position));
         image_page.setImageURI(imgUri);
         Objects.requireNonNull(container).addView(itemView);
 
