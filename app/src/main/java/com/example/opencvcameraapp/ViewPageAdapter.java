@@ -16,7 +16,7 @@ import java.util.Objects;
 
 public class ViewPageAdapter extends PagerAdapter {
     Context context;
-    ArrayList<String> images;
+    ArrayList<String> images = new ArrayList<>();
     LayoutInflater mLayoutInflater;
 
     public ViewPageAdapter(Context context, ArrayList images) {
@@ -41,11 +41,13 @@ public class ViewPageAdapter extends PagerAdapter {
         container.removeView((LinearLayout) object);
     }
 
+    public void removeView(int index)
+    {
+        images.remove(1);
+        notifyDataSetChanged();
+    }
 
-    //public void removeView(int index)
-    //{
-       // images.remove(1);
-    //}
+
 
     @NonNull
     @Override

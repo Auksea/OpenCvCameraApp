@@ -107,7 +107,6 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
             }
         });
 
-
         // checking if the permission has already been granted
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
                 == PackageManager.PERMISSION_GRANTED) {
@@ -150,6 +149,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         javaCameraView.setVisibility(CameraBridgeViewBase.VISIBLE);
         javaCameraView.setCvCameraViewListener(this);
     }
+
 
     @Override
     public void onCameraViewStarted(int width, int height) {
@@ -229,7 +229,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
                 success = folder.mkdirs();
             }
 
-            SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-dd");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-dd_HH-mm-ss");
             String currentDateAndTime = sdf.format(new Date());
             String fileName = Environment.getExternalStorageDirectory().getPath() + "/ImagePro/" + currentDateAndTime + ".jpg";
 

@@ -39,13 +39,12 @@ public class GalleryActivity extends AppCompatActivity {
             }
         });
 
-        //goDelete.setOnClickListener(new View.OnClickListener() {
-        //    @Override
-        //    public void onClick(View v) {
-        //        viewPageAdapter.removeView(1);
-        //        notify();
-        //    }
-        //});
+        goDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewPageAdapter.removeView(1);
+           }
+        });
 
     }
 
@@ -54,7 +53,7 @@ public class GalleryActivity extends AppCompatActivity {
 
         if(listFile != null)
         {
-            for(int i=0;i<listFile.length;i++)
+            for(int i = 0; i<listFile.length; i++)
             {
                 filePath.add(listFile[i].getAbsolutePath());
             }
