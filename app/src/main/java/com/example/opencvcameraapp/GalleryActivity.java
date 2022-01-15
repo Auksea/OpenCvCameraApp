@@ -13,9 +13,9 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class GalleryActivity extends AppCompatActivity {
-    ViewPager mViewPager;
+    private ViewPager mViewPager;
     ArrayList<String> filePath = new ArrayList<>();
-    ViewPageAdapter viewPageAdapter;
+    private ViewPageAdapter viewPageAdapter;
     ImageView goBack;
     ImageView goDelete;
 
@@ -42,7 +42,7 @@ public class GalleryActivity extends AppCompatActivity {
         goDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                viewPageAdapter.removeView(1);
+                viewPageAdapter.removeView(0);
            }
         });
 

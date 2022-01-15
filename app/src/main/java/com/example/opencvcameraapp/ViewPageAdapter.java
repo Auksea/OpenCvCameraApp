@@ -32,6 +32,11 @@ public class ViewPageAdapter extends PagerAdapter {
     }
 
     @Override
+    public int getItemPosition(Object object){
+        return PagerAdapter.POSITION_NONE;
+    }
+
+    @Override
     public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
         return view == ((LinearLayout) object);
     }
@@ -43,7 +48,7 @@ public class ViewPageAdapter extends PagerAdapter {
 
     public void removeView(int index)
     {
-        images.remove(1);
+        images.remove(0);
         notifyDataSetChanged();
     }
 

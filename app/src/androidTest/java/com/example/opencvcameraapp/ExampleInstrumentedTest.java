@@ -22,7 +22,8 @@ import org.junit.runner.RunWith;
 public class ExampleInstrumentedTest {
 
     @Rule
-    public ActivityScenarioRule rule = new ActivityScenarioRule(MainActivity.class);
+    public ActivityScenarioRule <MainActivity> rule = new ActivityScenarioRule<>(MainActivity.class);
+
 
     @Test
     public void BackButtonClick()
