@@ -1,20 +1,25 @@
 package com.example.opencvcameraapp;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.media.CamcorderProfile;
+import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
+import android.view.MotionEvent;
+import android.view.Surface;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.CameraBridgeViewBase;
@@ -28,6 +33,7 @@ import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -42,9 +48,28 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
     private Mat mRGBA;
     private Mat mRGBAT;
     private int take_image = 0;
+    private MediaRecorder recorder;
+    private ImageView btnRecording;
+    private int vide_or_photo=0;
+    private int take_video_or_not=0;
+
+
 
     private static final int MY_CAMERA_REQUEST_CODE = 100;
     int activeCamera = CameraBridgeViewBase.CAMERA_ID_ANY;
+
+    protected MediaRecorder mRecorder;
+    protected Surface mSurface;
+    //I will pass this openCV frame mSurface
+    //That surface is then recorded
+    public void setRecorder(MediaRecorder mRec){
+        mRecorder = mRec;
+        if(mRecorder != null){
+            mSurface=mRecorder.getSurface();
+
+
+        }
+    }
 
     BaseLoaderCallback baseLoaderCallback = new BaseLoaderCallback(this) {
         @Override
@@ -73,6 +98,8 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         btnCanny = findViewById(R.id.btnCanny);
         take_picture = findViewById(R.id.take_picture);
         gallery = findViewById(R.id.go_to_gallery);
+        btnRecording = findViewById(R.id.btnRecorder);
+        recorder = new MediaRecorder();
 
         btnCanny.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,16 +114,99 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
             }
         });
 
-        take_picture.setOnClickListener(new View.OnClickListener() {
+        btnRecording.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
-                if(take_image == 0)
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if(motionEvent.getAction()==motionEvent.ACTION_DOWN)
                 {
-                    take_image=1;
-                }else
-                {
-                    take_image=0;
+                    btnRecording.setColorFilter(Color.DKGRAY);
+                    return true;
                 }
+                if(motionEvent.getAction()==MotionEvent.ACTION_UP)
+                {
+                    btnRecording.setColorFilter(Color.BLACK);
+                    if(vide_or_photo == 0)
+                    {
+                        //video mode
+                        take_picture.setImageResource(R.drawable.ic_baseline_fiber_manual_record_24);
+                        take_picture.setColorFilter(Color.BLACK);
+                        vide_or_photo=1;
+                    }
+                    else{
+                        //photo mode
+                        take_picture.setImageResource(R.drawable.ic_baseline_camera_24);
+                        vide_or_photo=0;
+                    }
+
+
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        take_picture.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent motionEvent) {
+                if(motionEvent.getAction()==motionEvent.ACTION_DOWN)
+                {
+                    if(vide_or_photo==0){
+                        //photo mode
+                        if(take_image==0){
+                            take_picture.setColorFilter(Color.DKGRAY);
+                        }
+                    }
+                    return true;
+                }
+                if(motionEvent.getAction()==motionEvent.ACTION_UP){
+                    if(vide_or_photo==1){
+                        //video mode
+                        if(take_video_or_not==0){
+                            try {
+                                    //start recording
+                                    //create folder ImagePro
+                                    File folder = new File(Environment.getExternalStorageDirectory().getPath()+"/ImagePro");
+                                    boolean success = true;
+
+                                    if(!folder.exists())
+                                    {
+                                        success = folder.mkdirs();
+                                    }
+
+                                    take_picture.setImageResource(R.drawable.ic_baseline_fiber_manual_record_24);
+                                    take_picture.setColorFilter(Color.RED);
+                                    recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+                                    recorder.setVideoSource(MediaRecorder.VideoSource.SURFACE);
+                                    CamcorderProfile camcorderProfile = CamcorderProfile.get(CamcorderProfile.QUALITY_HIGH);
+                                    recorder.setProfile(camcorderProfile);
+                                    //saving video file
+                                    SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-dd_HH-mm-ss");
+                                    String currentDateAndTime = sdf.format(new Date());
+                                    String fileName = Environment.getExternalStorageDirectory().getPath() + "/ImagePro/" + currentDateAndTime + ".mp4";
+                                    recorder.setOutputFile(fileName);
+                                    recorder.setVideoSize(480,720);
+                                    //default size
+                                    //start recorder
+                                    recorder.prepare();
+                        }catch (IOException e){
+                                e.printStackTrace();
+                            }
+
+                    }
+
+                    }else{
+                        take_picture.setColorFilter(Color.BLACK);
+                        if(take_image == 0)
+                        {
+                            take_image=1;
+                        }else
+                        {
+                            take_image=0;
+                        }
+                    }
+                    return true;
+                }
+                return false;
             }
         });
 
@@ -239,4 +349,5 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         }
         return  take_image;
     }
+
 }
